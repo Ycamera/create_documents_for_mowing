@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Grid } from "@chakra-ui/react";
 
-const OsButton: React.FC<{ os: "windows" | "mac"; toggleOs: any }> = ({ os, toggleOs }) => {
+const OsButton: React.FC<{ os: "windows" | "mac"; toggleOs: () => void }> = ({ os, toggleOs }) => {
 	return (
 		<Grid
 			templateColumns="repeat(2,1fr)"
@@ -13,7 +13,6 @@ const OsButton: React.FC<{ os: "windows" | "mac"; toggleOs: any }> = ({ os, togg
 			ml="auto"
 			pos="relative"
 			cursor="pointer"
-			color="gray.600"
 			_before={{
 				content: "''",
 				pos: "absolute",
@@ -27,11 +26,16 @@ const OsButton: React.FC<{ os: "windows" | "mac"; toggleOs: any }> = ({ os, togg
 				borderRadius: "0.2rem",
 				transition: "0.2s",
 				boxShadow: "inset 0.05rem 0.05rem 0.3rem gray",
-				opacity: 0.5,
+				opacity: 0.6,
 			}}
+			textAlign="center"
 		>
-			<Box textAlign="center">Windows</Box>
-			<Box textAlign="center">Mac</Box>
+			<Box color={os === "windows" ? "gray.800" : "gray.500"} transition="0.2s">
+				Windows
+			</Box>
+			<Box color={os === "mac" ? "gray.800" : "gray.500"} transition="0.2s">
+				Mac
+			</Box>
 		</Grid>
 	);
 };

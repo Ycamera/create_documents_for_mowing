@@ -128,20 +128,25 @@ export default function Home() {
 									onChange={placeChangeHandler}
 									value={info.place}
 									name="place"
+									id="place"
+									nextInputId="number"
 								/>
 
 								<Grid {...gridStyle}>
 									<CommonForm
 										label="図面No."
-										onChange={(e: any) => numberChangeHandler(e, "number")}
+										onChange={(e: React.ChangeEvent) => numberChangeHandler(e, "number")}
 										value={info.number}
 										name="number"
+										id="number"
+										nextInputId="time"
 									/>
 									<CommonForm
 										label="回数"
-										onChange={(e: any) => numberChangeHandler(e, "time")}
+										onChange={(e: React.ChangeEvent) => numberChangeHandler(e, "time")}
 										value={info.time}
 										name="time"
+										id="time"
 									/>
 								</Grid>
 							</Box>
