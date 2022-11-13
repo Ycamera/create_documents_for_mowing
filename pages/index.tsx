@@ -116,12 +116,13 @@ export default function Home() {
 					</Heading>
 					<Box
 						boxShadow="0 0 0.2rem gray"
-						p={{ base: "1rem", sm: "3rem" }}
+						px={{ base: "1rem", sm: "2rem" }}
+						py="2rem"
 						borderRadius="1rem"
 						mt={{ base: "2rem", sm: "4rem" }}
 					>
 						<form>
-							<Box w="100%" mx="auto" mt="1rem">
+							<Box w="100%" mx="auto">
 								<CommonForm
 									label="現場名:"
 									onChange={placeChangeHandler}
@@ -146,7 +147,7 @@ export default function Home() {
 							</Box>
 							<UploadImages images={images} imageChangeHandler={imageChangeHandler} />
 							<OsButton os={os} toggleOs={toggleOs} />
-							<Grid mt="2rem" {...gridStyle} templateColumns="repeat(2,1fr)" gap="1rem">
+							<Grid mt="2rem" {...gridStyle} templateColumns="repeat(2,1fr)" gap="2rem">
 								<Button colorScheme="orange" onClick={resetForm}>
 									リセット
 								</Button>

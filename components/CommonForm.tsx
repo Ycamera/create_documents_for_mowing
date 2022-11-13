@@ -15,7 +15,7 @@ const CommonForm: React.FC<CommonFormProps> = ({ label, onChange, value, name })
 	const { register, errors } = useContext(useFormContext);
 
 	return (
-		<FormControl my={{ base: "0.5rem", sm: "1rem" }}>
+		<FormControl mt={name !== "place" ? { base: "0.5rem", sm: "1rem" } : 0}>
 			<FormLabel w="5rem" fontSize="1.2rem">
 				{label}
 			</FormLabel>
