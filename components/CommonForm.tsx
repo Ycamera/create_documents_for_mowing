@@ -26,6 +26,7 @@ const CommonForm: React.FC<CommonFormProps> = ({ label, onChange, value, name })
 				})}
 				type="text"
 				value={value}
+				borderColor="gray.300"
 			/>
 			<ErrorMessage error={errors[name]?.message} />
 		</FormControl>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Heading, Grid } from "@chakra-ui/react";
+import { Box, Button, Heading, Grid, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Head from "next/head";
 import { ImageProps, InfoProps } from "../components/type/type";
@@ -92,15 +92,18 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>資料作成ソフト</title>
+				<title>草刈り業務用 -資料作成ソフト-</title>
 				<meta name="author" content="Ryosuke.K" />
-				<meta name="description" content="草刈り業務の報告用資料作成ソフト" />
+				<meta name="description" content="草刈り業務の報告書作成ソフト" />
 			</Head>
 			<useFormContext.Provider value={{ register, errors }}>
 				<LoadingBg turnBgIntoDark={turnBgIntoDark} />
 				<Box w="calc(100% - 2rem)" maxW="50rem" mx="auto" my={{ base: "2rem", sm: "4rem" }}>
 					<Heading textAlign="center" color="gray.600" as="h1" fontSize="2rem">
-						資料作成ソフト
+						草刈り業務用
+						<Text fontSize="1rem" mt="0.5rem" color="gray.400">
+							-資料作成ソフト-
+						</Text>
 					</Heading>
 					<Box
 						boxShadow="0 0 0.2rem gray"
