@@ -11,12 +11,12 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 
 	const worksheet = workbook.getWorksheet(place);
 	worksheet.pageSetup.paperSize = 9;
-	worksheet.pageSetup.orientation = "portrait";
 	worksheet.pageSetup.horizontalCentered = true;
 	worksheet.pageSetup.printArea = "A1:A8";
 	worksheet.pageSetup.fitToPage = true;
+	worksheet.properties.defaultColWidth = 60;
 
-	worksheet.columns = [{ header: place, key: "id", width: 60 }];
+	worksheet.columns = [{ header: place, key: "id" }];
 
 	const imageBeforeConstruct = workbook.addImage({
 		base64: images.beforeConstruct,
