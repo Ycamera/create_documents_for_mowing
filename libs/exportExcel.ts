@@ -13,7 +13,8 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 	worksheet.pageSetup.paperSize = 9;
 	worksheet.pageSetup.orientation = "portrait";
 	worksheet.pageSetup.horizontalCentered = true;
-	worksheet.pageSetup.printArea = "A1:A7";
+	worksheet.pageSetup.printArea = "A1:A8";
+	worksheet.pageSetup.fitToPage = true;
 
 	worksheet.columns = [{ header: place, key: "id", width: 60 }];
 
@@ -31,24 +32,29 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 
 	worksheet.addRow({ id: "着工前" });
 	worksheet.addRow({ id: "" });
+	worksheet.addRow({ id: "" });
 
-	worksheet.addImage(imageBeforeConstruct, {
-		tl: { col: 0.6, row: 3.9 },
-		ext: { width: 400, height: 300 },
-	});
+	// worksheet.addImage(imageBeforeConstruct, {
+	// 	tl: { col: 0.6, row: 3.9 },
+	// 	ext: { width: 400, height: 300 },
+	// });
+	worksheet.addImage(imageBeforeConstruct, "A5:A5");
 
 	worksheet.addRow({ id: "着工後" });
 	worksheet.addRow({ id: "" });
-	worksheet.addImage(imageAfterConstruct, {
-		tl: { col: 0.6, row: 5.9 },
-		ext: { width: 400, height: 300 },
-	});
+	worksheet.addRow({ id: "" });
+
+	// worksheet.addImage(imageAfterConstruct, {
+	// 	tl: { col: 0.6, row: 5.9 },
+	// 	ext: { width: 400, height: 300 },
+	// });
+	worksheet.addImage(imageAfterConstruct, "A8:A8");
 
 	const headerFontStyle = {
-		size: 28,
+		size: 24,
 	};
 	const subHeaderFontStyle = {
-		size: 24,
+		size: 20,
 	};
 	const defaultFontStyle = {
 		size: 18,
@@ -64,7 +70,7 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 			if (rowNumber === 2) cell.font = subHeaderFontStyle;
 
 			//着工前　着工後
-			if (rowNumber === 3 || rowNumber === 5) {
+			if (rowNumber === 3 || rowNumber === 6) {
 				cell.font = defaultFontStyle;
 				cell.alignment = { vertical: "bottom", horizontal: "center" };
 			} else {
@@ -74,7 +80,7 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 
 		//場所名
 		if (rowNumber === 1) {
-			row.height = 40;
+			row.height = 32;
 		}
 		//ナンバー　回数
 		if (rowNumber === 2) {
@@ -85,12 +91,15 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 			row.height = 50;
 		}
 		//着工後
-		if (rowNumber === 5) {
-			row.height = 30;
+		if (rowNumber === 6) {
+			row.height = 40;
+		}
+		if (rowNumber === 4 || rowNumber === 7) {
+			row.height = 15;
 		}
 		//画像
-		if (rowNumber === 4 || rowNumber === 6) {
-			row.height = 190;
+		if (rowNumber === 5 || rowNumber === 8) {
+			row.height = 180;
 		}
 	});
 
