@@ -58,6 +58,7 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 	};
 	const defaultFontStyle = {
 		size: 18,
+		color: { argb: "4A5568" },
 	};
 
 	worksheet.eachRow((row, rowNumber) => {
@@ -67,7 +68,10 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 				cell.font = headerFontStyle;
 			}
 			//ナンバー　回数
-			if (rowNumber === 2) cell.font = subHeaderFontStyle;
+			if (rowNumber === 2) {
+				cell.font = subHeaderFontStyle;
+				cell.border = { bottom: { style: "thin", color: { argb: "A4A4A4" } } };
+			}
 
 			//着工前　着工後
 			if (rowNumber === 3 || rowNumber === 6) {
@@ -95,7 +99,7 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 			row.height = 40;
 		}
 		if (rowNumber === 4 || rowNumber === 7) {
-			row.height = 15;
+			row.height = 12;
 		}
 		//画像
 		if (rowNumber === 5 || rowNumber === 8) {
