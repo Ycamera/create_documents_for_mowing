@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ImageProps, InfoProps } from "../components/type/type";
 import UploadImages from "../components/UploadImage";
 import CommonForm from "../components/CommonForm";
+import OsButton from "../components/OsButton";
 
 import exportExcel from "../libs/exportExcel";
 import LoadingBg from "../components/LoadingBg";
@@ -25,6 +26,14 @@ const init: InitProps = {
 export default function Home() {
 	const [images, setImages] = useState<ImageProps>(init.images);
 	const [info, setInfo] = useState<InfoProps>(init.info);
+	const [os, setOs] = useState<"windows" | "mac">("windows");
+
+	function toggleOs() {
+		setOs((prev) => {
+			if (prev === "windows") return "mac";
+			return "windows";
+		});
+	}
 
 	function imageChangeHandler(e: any, imageKey: string): void {
 		const file = e.target.files[0];
@@ -79,7 +88,7 @@ export default function Home() {
 
 	async function onSubmit() {
 		setTurnBgIntoDark(true);
-		const response = await exportExcel(info, images);
+		const response = await exportExcel(info, images, os);
 		if (response) setTurnBgIntoDark(false);
 	}
 
@@ -136,7 +145,8 @@ export default function Home() {
 								</Grid>
 							</Box>
 							<UploadImages images={images} imageChangeHandler={imageChangeHandler} />
-							<Grid mt="3rem" {...gridStyle} templateColumns="repeat(2,1fr)" gap="1rem">
+							<OsButton os={os} toggleOs={toggleOs} />
+							<Grid mt="2rem" {...gridStyle} templateColumns="repeat(2,1fr)" gap="1rem">
 								<Button colorScheme="orange" onClick={resetForm}>
 									リセット
 								</Button>

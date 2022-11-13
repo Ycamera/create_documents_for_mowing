@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs";
 import { ImageProps, InfoProps } from "../components/type/type";
 
-async function exportExcel(info: InfoProps, images: ImageProps) {
+async function exportExcel(info: InfoProps, images: ImageProps, os: "windows" | "mac") {
 	const { place, number, time } = info;
 	const fileName = info.place;
 
@@ -50,6 +50,11 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 	// });
 	worksheet.addImage(imageAfterConstruct, "A8:A8");
 
+	function adjustHeight(height: number): number {
+		if (os === "windows") return height * 1.5;
+		return height;
+	}
+
 	const headerFontStyle = {
 		size: 24,
 	};
@@ -84,26 +89,26 @@ async function exportExcel(info: InfoProps, images: ImageProps) {
 
 		//場所名
 		if (rowNumber === 1) {
-			row.height = 32;
+			row.height = adjustHeight(32);
 		}
 		//ナンバー　回数
 		if (rowNumber === 2) {
-			row.height = 32;
+			row.height = adjustHeight(32);
 		}
 		//着工前
 		if (rowNumber === 3) {
-			row.height = 50;
+			row.height = adjustHeight(50);
 		}
 		//着工後
 		if (rowNumber === 6) {
-			row.height = 40;
+			row.height = adjustHeight(40);
 		}
 		if (rowNumber === 4 || rowNumber === 7) {
-			row.height = 12;
+			row.height = adjustHeight(12);
 		}
 		//画像
 		if (rowNumber === 5 || rowNumber === 8) {
-			row.height = 180;
+			row.height = adjustHeight(180);
 		}
 	});
 
