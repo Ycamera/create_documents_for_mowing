@@ -66,7 +66,11 @@ export default function Home() {
 		const file = e.target.files[0];
 		const reader = new FileReader();
 
-		if (!file) return;
+		if (!file) {
+			return setImages((prev) => {
+				return { ...prev, [imageKey]: "" };
+			});
+		}
 
 		reader.readAsDataURL(file);
 
