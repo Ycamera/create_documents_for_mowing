@@ -1,8 +1,8 @@
 import React from "react";
-
 import { Box, Grid } from "@chakra-ui/react";
+import { OsProps } from "../components/type/type";
 
-const OsButton: React.FC<{ os: "windows" | "mac"; toggleOs: () => void }> = ({ os, toggleOs }) => {
+const OsButton: React.FC<{ os: OsProps; toggleOs: () => void }> = ({ os, toggleOs }) => {
 	return (
 		<Grid
 			templateColumns="repeat(2,1fr)"
@@ -30,10 +30,10 @@ const OsButton: React.FC<{ os: "windows" | "mac"; toggleOs: () => void }> = ({ o
 			}}
 			textAlign="center"
 		>
-			<Box color={os === "windows" ? "gray.800" : "gray.500"} transition="0.2s">
+			<Box color={os === "windows" ? "gray.900" : "gray.500"} transition="0.2s">
 				Windows
 			</Box>
-			<Box color={os === "mac" ? "gray.800" : "gray.500"} transition="0.2s">
+			<Box color={os === "mac" ? "gray.900" : "gray.500"} transition="0.2s">
 				Mac
 			</Box>
 		</Grid>

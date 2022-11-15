@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Input, FormControl, FormLabel } from "@chakra-ui/react";
+import React, { useContext, useEffect } from "react";
+import { Box, Input, FormControl, FormLabel } from "@chakra-ui/react";
 
 import { useFormContext } from "../pages/index";
 import ErrorMessage from "./ErrorMessage";
@@ -11,9 +11,10 @@ type CommonFormProps = {
 	name: string;
 	id: "place" | "number" | "time";
 	nextInputId?: "number" | "time";
+	required?: boolean;
 };
 
-const CommonForm: React.FC<CommonFormProps> = ({ label, onChange, value, name, id, nextInputId }) => {
+const CommonForm: React.FC<CommonFormProps> = ({ label, onChange, value, name, id, nextInputId, required }) => {
 	const { register, errors } = useContext(useFormContext);
 
 	function onKeyPressEnter(e: any) {
@@ -23,17 +24,29 @@ const CommonForm: React.FC<CommonFormProps> = ({ label, onChange, value, name, i
 		}
 	}
 
+	let registerInfo;
+
+	if (required) {
+		registerInfo = {
+			...register(name, {
+				required: "必須項目",
+				onChange: onChange,
+			}),
+		};
+	} else {
+		registerInfo = {
+			...register(name, {
+				onChange: onChange,
+			}),
+		};
+	}
+
 	return (
-		<FormControl mt={name !== "place" ? { base: "0.5rem", sm: "1rem" } : 0}>
-			<FormLabel w="5rem" fontSize="1.2rem">
-				{label}
-			</FormLabel>
+		<FormControl mt={{ base: "0.5rem", sm: "1rem" }}>
+			<FormLabel fontSize="1.2rem">{label}</FormLabel>
 			<Input
 				id={id}
-				{...register(name, {
-					required: "必須項目",
-					onChange: onChange,
-				})}
+				{...registerInfo}
 				type="text"
 				value={value}
 				borderColor="gray.300"

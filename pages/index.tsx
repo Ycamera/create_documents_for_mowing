@@ -1,17 +1,26 @@
-import React, { useState } from "react";
-import { Box, Button, Heading, Grid, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, Heading, Flex, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Head from "next/head";
-import { ImageProps, InfoProps } from "../components/type/type";
-import UploadImages from "../components/UploadImage";
-import CommonForm from "../components/CommonForm";
-import OsButton from "../components/OsButton";
+import {
+	ImageProps,
+	InfoProps,
+	OsProps,
+	FormInfoContextProps,
+	TypeOfPlaceProps,
+	TypeOfPictureProps,
+	typeOfPlaceContextsProps,
+} from "../components/type/type";
+
+import { Forms } from "../components/Forms";
 
 import exportExcel from "../libs/exportExcel";
 import LoadingBg from "../components/LoadingBg";
 
 export const useFormContext = React.createContext<Partial<{ register: any; errors: any }>>({});
 export const resetContext = React.createContext<Partial<{ reset: boolean; setReset: any }>>({});
+export const formInfoContext = React.createContext<Partial<FormInfoContextProps>>({});
+export const typeOfPlaceContexts = React.createContext<Partial<typeOfPlaceContextsProps>>({});
 
 type InitProps = {
 	images: ImageProps;
@@ -26,18 +35,38 @@ const init: InitProps = {
 export default function Home() {
 	const [images, setImages] = useState<ImageProps>(init.images);
 	const [info, setInfo] = useState<InfoProps>(init.info);
-	const [os, setOs] = useState<"windows" | "mac">("windows");
+	const [typeOfPlace, setTypeOfPlace] = useState<TypeOfPlaceProps>("school");
+	const [typeOfPicture, setTypeOfPicture] = useState<TypeOfPictureProps>("beforeConstruct");
 
-	function toggleOs() {
+	const [os, setOs] = useState<OsProps>("windows");
+
+	//OS　切り替え
+	function toggleOs(): void {
 		setOs((prev) => {
 			if (prev === "windows") return "mac";
 			return "windows";
 		});
 	}
 
+	//現場の種類　切り替え
+	function toggleTypeOfPlace(place: TypeOfPlaceProps): void {
+		setTypeOfPlace((prev) => {
+			// resetForm();
+			return place;
+		});
+	}
+
+	function toggleTypeOfPicture(picture: TypeOfPictureProps): void {
+		setTypeOfPicture((prev) => {
+			return picture;
+		});
+	}
+
 	function imageChangeHandler(e: any, imageKey: string): void {
 		const file = e.target.files[0];
 		const reader = new FileReader();
+
+		if (!file) return;
 
 		reader.readAsDataURL(file);
 
@@ -68,35 +97,34 @@ export default function Home() {
 		});
 	}
 
-	function resetForm(): void {
-		setInfo(init.info);
-		setImages(init.images);
-		const imageElements = document.getElementsByClassName("construct-image");
-		for (let i = 0; i < imageElements.length; i++) {
-			const imageElement = imageElements[i] as HTMLInputElement;
-			imageElement.value = "";
-		}
-	}
+	//エクセル生成時にDLまで画面を暗転
+	const [turnBgIntoDark, setTurnBgIntoDark] = useState<boolean>(false);
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm();
-
-	const [turnBgIntoDark, setTurnBgIntoDark] = useState<boolean>(false);
 
 	async function onSubmit() {
 		setTurnBgIntoDark(true);
-		const response = await exportExcel(info, images, os);
+		const response = await exportExcel(info, images, typeOfPlace, typeOfPicture, os);
 		if (response) setTurnBgIntoDark(false);
 	}
 
-	const gridStyle = {
-		templateRows: "1",
-		templateColumns: { base: "repeat(1,1fr)", sm: "repeat(2,1fr)" },
-		gap: { base: "0", sm: "2rem" },
-	};
+	//フォーム内容をリセット
+	function resetForm(): void {
+		setInfo(init.info);
+		setImages(init.images);
+
+		const imageElements = document.getElementsByClassName("construct-image");
+		for (let i = 0; i < imageElements.length; i++) {
+			const imageElement = imageElements[i] as HTMLInputElement;
+			imageElement.value = "";
+		}
+		reset();
+	}
 
 	return (
 		<>
@@ -104,65 +132,59 @@ export default function Home() {
 				<title>草刈り業務用 -資料作成ソフト-</title>
 				<meta name="author" content="Ryosuke.K" />
 				<meta name="description" content="草刈り業務の報告書作成ソフト" />
+				<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
 			</Head>
 			<useFormContext.Provider value={{ register, errors }}>
-				<LoadingBg turnBgIntoDark={turnBgIntoDark} />
-				<Box w="calc(100% - 2rem)" maxW="50rem" mx="auto" my={{ base: "2rem", sm: "4rem" }}>
-					<Heading textAlign="center" color="gray.600" as="h1" fontSize="2rem">
-						草刈り業務用
-						<Text fontSize="1rem" mt="0.5rem" color="gray.400">
-							-資料作成ソフト-
-						</Text>
-					</Heading>
-					<Box
-						boxShadow="0 0 0.2rem gray"
-						px={{ base: "1rem", sm: "2rem" }}
-						py="2rem"
-						borderRadius="1rem"
-						mt={{ base: "2rem", sm: "4rem" }}
+				<formInfoContext.Provider
+					value={{
+						info,
+						images,
+						os,
+						toggleOs,
+						typeOfPlace,
+						toggleTypeOfPlace,
+						resetForm,
+						placeChangeHandler,
+						imageChangeHandler,
+						numberChangeHandler,
+						handleSubmit: handleSubmit(onSubmit),
+					}}
+				>
+					<typeOfPlaceContexts.Provider
+						value={{ typeOfPlace, toggleTypeOfPlace, typeOfPicture, toggleTypeOfPicture }}
 					>
-						<form>
-							<Box w="100%" mx="auto">
-								<CommonForm
-									label="現場名:"
-									onChange={placeChangeHandler}
-									value={info.place}
-									name="place"
-									id="place"
-									nextInputId="number"
-								/>
+						<LoadingBg turnBgIntoDark={turnBgIntoDark} />
 
-								<Grid {...gridStyle}>
-									<CommonForm
-										label="図面No."
-										onChange={(e: React.ChangeEvent) => numberChangeHandler(e, "number")}
-										value={info.number}
-										name="number"
-										id="number"
-										nextInputId="time"
-									/>
-									<CommonForm
-										label="回数"
-										onChange={(e: React.ChangeEvent) => numberChangeHandler(e, "time")}
-										value={info.time}
-										name="time"
-										id="time"
-									/>
-								</Grid>
-							</Box>
-							<UploadImages images={images} imageChangeHandler={imageChangeHandler} />
-							<OsButton os={os} toggleOs={toggleOs} />
-							<Grid mt="2rem" {...gridStyle} templateColumns="repeat(2,1fr)" gap="2rem">
-								<Button colorScheme="orange" onClick={resetForm}>
-									リセット
-								</Button>
-								<Button colorScheme="messenger" onClick={handleSubmit(onSubmit)}>
-									ダウンロード
-								</Button>
-							</Grid>
-						</form>
-					</Box>
-				</Box>
+						<Box
+							w="calc(100% - 2rem)"
+							maxW="50rem"
+							mx="auto"
+							my={{ base: "2rem", sm: "4rem" }}
+							color="gray.900"
+						>
+							<Heading
+								textAlign="center"
+								color="gray.600"
+								as="h1"
+								fontSize="2rem"
+								mb={{ base: "2rem", sm: "4rem" }}
+							>
+								草刈り業務用
+								<Text fontSize="1rem" mt="0.5rem" color="gray.400">
+									-資料作成ソフト-
+								</Text>
+							</Heading>
+
+							<Flex display="flex" mt="-2rem" mr="2rem" mb="0.5rem">
+								<Box color="gray.500" ml="auto">
+									For Windows
+								</Box>
+							</Flex>
+
+							<Forms typeOfPlace={typeOfPlace} />
+						</Box>
+					</typeOfPlaceContexts.Provider>
+				</formInfoContext.Provider>
 			</useFormContext.Provider>
 		</>
 	);
