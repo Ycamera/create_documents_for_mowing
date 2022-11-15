@@ -28,7 +28,7 @@ async function exportExcel(
 
 	//旧式 worksheet 画像サイズ　２、３枚用
 	// windows imagewidth = 370 imageHeight = 302
-	const imageWidth = 370;
+	const imageWidth = 372;
 	const imageHeight = 304;
 	const imageTlCol = 0.15;
 	const imageTlRow = 0.5;

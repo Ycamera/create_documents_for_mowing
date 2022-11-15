@@ -25,7 +25,7 @@ const ButtonCmp: React.FC<ButtonCmpProps> = ({ type, label, place, picture }) =>
 		if (typeOfPlace === placeOrPicture || typeOfPicture === placeOrPicture)
 			return { color: "gray.900", bg: "gray.300", borderRadius };
 		return {
-			color: "gray.500",
+			color: "gray.400",
 			bg: "gray.200",
 			borderRadius,
 			_hover: {
