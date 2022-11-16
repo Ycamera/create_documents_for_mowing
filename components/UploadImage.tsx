@@ -9,9 +9,10 @@ import ErrorMessage from "./ErrorMessage";
 type UploadImageProps = {
 	title: string;
 	imageKey: ImageKeyProps;
+	require?: boolean;
 };
 
-const UploadImage: React.FC<UploadImageProps> = ({ title, imageKey }) => {
+const UploadImage: React.FC<UploadImageProps> = ({ title, imageKey, require = true }) => {
 	const { register, errors } = useContext(useFormContext);
 	const { images, imageChangeHandler } = useContext(formInfoContext) as FormInfoContextProps;
 	const image = images[imageKey];
@@ -21,6 +22,23 @@ const UploadImage: React.FC<UploadImageProps> = ({ title, imageKey }) => {
 		if (e.target.tagName !== "INPUT") {
 			inputElement.click();
 		}
+	}
+
+	let registerInfo;
+
+	if (require) {
+		registerInfo = {
+			...register(imageKey, {
+				required: "必須項目",
+				onChange: (e: any) => imageChangeHandler(e, imageKey),
+			}),
+		};
+	} else {
+		registerInfo = {
+			...register(imageKey, {
+				onChange: (e: any) => imageChangeHandler(e, imageKey),
+			}),
+		};
 	}
 
 	return (
@@ -54,10 +72,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ title, imageKey }) => {
 				<Box overflow="hidden">
 					<input
 						id={imageKey}
-						{...register(imageKey, {
-							required: "必須項目",
-							onChange: (e: any) => imageChangeHandler(e, imageKey),
-						})}
+						{...registerInfo}
 						type="file"
 						accept="image/*"
 						style={{ boxSizing: "content-box", margin: "1rem 1rem", width: "100%" }}
@@ -89,7 +104,14 @@ export const UploadImagesForPark: React.FC = () => {
 	return (
 		<Grid templateColumns={{ base: "repeat(1,1fr)", md: "repeat(2,1fr)" }} gap="2rem" mt="1.5rem" w="100%">
 			{imageKeys.map((imageKey, index) => {
-				return <UploadImage key={imageKey} title={title + " No." + (index + 1)} imageKey={imageKey} />;
+				return (
+					<UploadImage
+						key={imageKey}
+						title={title + " No." + (index + 1)}
+						imageKey={imageKey}
+						{...(index !== 0 && { require: false })}
+					/>
+				);
 			})}
 		</Grid>
 	);

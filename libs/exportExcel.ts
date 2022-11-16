@@ -1,3 +1,4 @@
+import { KeyObjectType } from "crypto";
 import ExcelJS from "exceljs";
 import { ImageProps, InfoProps, OsProps, TypeOfPictureProps, TypeOfPlaceProps } from "../components/type/type";
 
@@ -28,8 +29,8 @@ async function exportExcel(
 
 	//旧式 worksheet 画像サイズ　２、３枚用
 	// windows imagewidth = 370 imageHeight = 302
-	const imageWidth = 372;
-	const imageHeight = 304;
+	const imageWidth = 369;
+	const imageHeight = 301;
 	const imageTlCol = 0.15;
 	const imageTlRow = 0.5;
 
@@ -262,47 +263,67 @@ async function exportExcel(
 	function addRowsForOldPark() {
 		const cellHeight = setDefaultColWidthAndCellHeight();
 
-		const firstImage = workbook.addImage({
-			base64: images.firstImage,
-			extension: "jpeg",
-		});
-
-		const secondImage = workbook.addImage({
-			base64: images.secondImage,
-			extension: "jpeg",
-		});
-
-		const thirdImage = workbook.addImage({
-			base64: images.thirdImage,
-			extension: "jpeg",
-		});
-
-		worksheet.addImage(firstImage, {
-			tl: { col: 0 + imageTlCol, row: 0 + imageTlRow },
-			ext: { width: imageWidth, height: imageHeight },
-			editAs: "absolute",
-		});
-
-		worksheet.addImage(secondImage, {
-			tl: { col: 0 + imageTlCol, row: 12 + imageTlRow },
-			ext: { width: imageWidth, height: imageHeight },
-			editAs: "absolute",
-		});
-
-		worksheet.addImage(thirdImage, {
-			tl: { col: 0 + imageTlCol, row: 24 + imageTlRow },
-			ext: { width: imageWidth, height: imageHeight },
-			editAs: "absolute",
-		});
-
 		infoArray.forEach((text, index) => {
 			const mergeCellRowNum = infoStartRowNum + index;
 			addTextAndMergeCell(mergeCellRowNum, text);
 		});
 		const textOfConstruct = getStrOfTypeOfPicture(typeOfPicture);
 		addTextAndMergeCell(infoStartRowNum + 3, textOfConstruct);
-		addTextAndMergeCell(infoStartRowNum + 15, textOfConstruct);
-		addTextAndMergeCell(infoStartRowNum + 27, textOfConstruct);
+
+		const ImageRowStart = [0, 12, 24];
+		const mergeAndInsertText = [0, 15, 27];
+
+		const keys: ("firstImage" | "secondImage" | "thirdImage")[] = ["firstImage", "secondImage", "thirdImage"];
+		const imagesToAdd: number[] = [];
+
+		keys.forEach((key) => {
+			const image = images[key];
+
+			if (image && image.length) {
+				const addImage = workbook.addImage({
+					base64: image,
+					extension: "jpeg",
+				});
+				imagesToAdd.push(addImage);
+			}
+		});
+
+		// if (images.firstImage) {
+		// 	const firstImage = workbook.addImage({
+		// 		base64: images.firstImage,
+		// 		extension: "jpeg",
+		// 	});
+		// 	imagesToAdd.push(firstImage);
+		// }
+
+		// if (images.secondImage) {
+		// 	const secondImage = workbook.addImage({
+		// 		base64: images.secondImage,
+		// 		extension: "jpeg",
+		// 	});
+
+		// 	imagesToAdd.push(secondImage);
+		// }
+
+		// if (images.thirdImage) {
+		// 	const thirdImage = workbook.addImage({
+		// 		base64: images.thirdImage,
+		// 		extension: "jpeg",
+		// 	});
+
+		// 	imagesToAdd.push(thirdImage);
+		// }
+
+		imagesToAdd.forEach((image, index) => {
+			worksheet.addImage(image, {
+				tl: { col: 0 + imageTlCol, row: ImageRowStart[index] + imageTlRow },
+				ext: { width: imageWidth, height: imageHeight },
+				editAs: "absolute",
+			});
+			if (index !== 0) {
+				addTextAndMergeCell(infoStartRowNum + mergeAndInsertText[index], textOfConstruct);
+			}
+		});
 
 		addBorderToExcel(6, 36, cellHeight);
 	}

@@ -28,7 +28,7 @@ type InitProps = {
 };
 
 const init: InitProps = {
-	images: { beforeConstruct: "", afterConstruct: "" },
+	images: { beforeConstruct: "", afterConstruct: "", firstImage: "", secondImage: "", thirdImage: "" },
 	info: { place: "", number: "", time: "" },
 };
 
@@ -179,7 +179,7 @@ export default function Home() {
 								</Text>
 							</Heading>
 
-							<Flex display="flex" mt="-2rem" mr="2rem" mb="0.5rem">
+							<Flex display="flex" mt="-2rem" mr={{ base: "1rem", sm: "2rem" }} mb="0.5rem">
 								<Box color="gray.500" ml="auto">
 									For Windows
 								</Box>

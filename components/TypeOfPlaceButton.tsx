@@ -6,7 +6,7 @@ import { typeOfPlaceContexts } from "../pages";
 
 type ButtonCmpProps = {
 	type: "place" | "picture";
-	label: "学校" | "公園" | "作業前" | "作業後";
+	label: "2枚：着工前後" | "3枚：作業前後" | "作業前" | "作業後";
 	place?: TypeOfPlaceProps;
 	picture?: TypeOfPictureProps;
 };
@@ -60,9 +60,7 @@ const ButtonCmp: React.FC<ButtonCmpProps> = ({ type, label, place, picture }) =>
 const ButtonLayout: React.FC<{ children: ReactNode; title: string; style?: object }> = ({ children, title, style }) => {
 	return (
 		<Box {...(style && style)}>
-			<Box fontSize="1.2rem" mb="2">
-				{title}
-			</Box>
+			<FormLabel fontSize="1.2rem">{title}</FormLabel>
 			<Grid
 				templateRows="1"
 				templateColumns="repeat(2,1fr)"
@@ -84,9 +82,9 @@ type TypeOfPlaceButtonProps = {
 
 export const TypeOfPlaceButton: React.FC<TypeOfPlaceButtonProps> = ({ typeOfPlace, toggleTypeOfPlace }) => {
 	return (
-		<ButtonLayout title="現場の種類：">
-			<ButtonCmp type="place" label="学校" place="school" />
-			<ButtonCmp type="place" label="公園" place="park" />
+		<ButtonLayout title="写真の数：">
+			<ButtonCmp type="place" label="2枚：着工前後" place="school" />
+			<ButtonCmp type="place" label="3枚：作業前後" place="park" />
 		</ButtonLayout>
 	);
 };
