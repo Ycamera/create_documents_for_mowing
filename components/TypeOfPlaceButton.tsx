@@ -82,7 +82,7 @@ type TypeOfPlaceButtonProps = {
 
 export const TypeOfPlaceButton: React.FC<TypeOfPlaceButtonProps> = ({ typeOfPlace, toggleTypeOfPlace }) => {
 	return (
-		<ButtonLayout title="写真の数：">
+		<ButtonLayout title="写真の枚数：">
 			<ButtonCmp type="place" label="2枚：着工前後" place="school" />
 			<ButtonCmp type="place" label="3枚：作業前後" place="park" />
 		</ButtonLayout>
