@@ -254,8 +254,8 @@ async function exportExcel(
 			addTextAndMergeCell(mergeCellRowNum, text);
 		});
 
-		addTextAndMergeCell(infoStartRowNum + 3, "着工前");
-		addTextAndMergeCell(infoStartRowNum + 15, "完了");
+		addTextAndMergeCell(infoStartRowNum + 3, "作業前");
+		addTextAndMergeCell(infoStartRowNum + 15, "作業後");
 
 		addBorderToExcel(6, 36, cellHeight);
 	}

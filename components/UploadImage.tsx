@@ -88,8 +88,8 @@ const UploadImage: React.FC<UploadImageProps> = ({ title, imageKey, require = tr
 export const UploadImagesForSchool: React.FC = () => {
 	return (
 		<Grid templateColumns={{ base: "repeat(1,1fr)", md: "repeat(2,1fr)" }} gap="2rem" mt="1.5rem" w="100%">
-			<UploadImage title="着工前写真" imageKey="beforeConstruct" />
-			<UploadImage title="着工後写真" imageKey="afterConstruct" />
+			<UploadImage title="作業前写真" imageKey="beforeConstruct" />
+			<UploadImage title="作業後写真" imageKey="afterConstruct" />
 		</Grid>
 	);
 };
