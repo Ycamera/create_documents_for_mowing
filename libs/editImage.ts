@@ -2,7 +2,7 @@ function editImage(imageUrl: string) {
 	return new Promise((resolve) => {
 		const canvas: HTMLCanvasElement = document.createElement("canvas");
 
-		const x = 5;
+		const x = 3; //画像サイズの倍率
 		const width = 400 * x;
 		const height = 300 * x;
 		const margin = 5 * x;

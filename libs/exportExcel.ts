@@ -1,4 +1,3 @@
-import { KeyObjectType } from "crypto";
 import ExcelJS from "exceljs";
 import { ImageProps, InfoProps, OsProps, TypeOfPictureProps, TypeOfPlaceProps } from "../components/type/type";
 
@@ -29,10 +28,10 @@ async function exportExcel(
 
 	//旧式 worksheet 画像サイズ　２、３枚用
 	// windows imagewidth = 370 imageHeight = 302
-	const imageWidth = 369;
-	const imageHeight = 301;
-	const imageTlCol = 0.15;
-	const imageTlRow = 0.5;
+	// const imageWidth = 369;
+	// const imageHeight = 301;
+	// const imageTlCol = 0.15;
+	// const imageTlRow = 0.5;
 
 	const infoStartPos = "E";
 	const infoMergeEndPos = "F";

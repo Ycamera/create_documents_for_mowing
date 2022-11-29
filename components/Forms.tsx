@@ -17,7 +17,7 @@ type FormLayoutProps = {
 const FormLayout: React.FC<FormLayoutProps> = ({ children, ParkOptionButton }) => {
 	const {
 		info,
-
+		images,
 		os,
 		toggleOs,
 		typeOfPlace,
@@ -28,6 +28,23 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, ParkOptionButton }) =
 		numberChangeHandler,
 		handleSubmit,
 	} = useContext(formInfoContext) as FormInfoContextProps;
+
+	const [downloadButtonActive, setDownloadButtonActive] = useState<boolean>(false);
+
+	useEffect(() => {
+		const { place, time } = info;
+		if (!(place && time)) return setDownloadButtonActive(false);
+
+		if (typeOfPlace === "school") {
+			if (images.beforeConstruct && images.afterConstruct) {
+				setDownloadButtonActive(true);
+			}
+		} else {
+			if (images.firstImage) {
+				setDownloadButtonActive(true);
+			}
+		}
+	}, [images, typeOfPlace, info]);
 
 	return (
 		<form>
@@ -82,7 +99,8 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, ParkOptionButton }) =
 						リセット
 					</Button>
 					<Button
-						colorScheme="messenger"
+						colorScheme={downloadButtonActive ? "messenger" : "gray"}
+						{...(!downloadButtonActive && { color: "gray.400" })}
 						onClick={(e) => {
 							e.preventDefault();
 							handleSubmit();

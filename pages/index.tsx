@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Heading, Flex, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Head from "next/head";

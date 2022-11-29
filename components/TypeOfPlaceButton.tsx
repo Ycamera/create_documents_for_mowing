@@ -1,7 +1,6 @@
 import React, { ReactNode, useContext } from "react";
-import { Input, FormControl, FormLabel, Flex, Box, Grid } from "@chakra-ui/react";
+import { FormLabel, Flex, Box, Grid } from "@chakra-ui/react";
 import { typeOfPlaceContextsProps, TypeOfPlaceProps, TypeOfPictureProps } from "../components/type/type";
-import { generateKey } from "crypto";
 import { typeOfPlaceContexts } from "../pages";
 
 type ButtonCmpProps = {
