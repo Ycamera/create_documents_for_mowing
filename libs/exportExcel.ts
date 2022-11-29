@@ -279,7 +279,6 @@ async function exportExcel(
 		imagesToAdd.forEach((image, index) => {
 			const row = ImageRowStart[index];
 			const imageCellPosition = `A${row}:D${row + 11}`;
-			console.log(imageCellPosition);
 
 			worksheet.addImage(image, imageCellPosition);
 
