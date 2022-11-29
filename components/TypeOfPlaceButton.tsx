@@ -25,10 +25,10 @@ const ButtonCmp: React.FC<ButtonCmpProps> = ({ type, label, place, picture }) =>
 			return { color: "gray.900", bg: "gray.300", borderRadius };
 		return {
 			color: "gray.400",
-			bg: "gray.200",
+			bg: "gray.100",
 			borderRadius,
 			_hover: {
-				boxShadow: "0 0.1rem 0.5rem gray",
+				bg: "gray.200",
 			},
 		};
 	}
