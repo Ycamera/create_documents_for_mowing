@@ -234,20 +234,8 @@ async function exportExcel(
 			extension: "jpeg",
 		});
 
-		// worksheet.addImage(imageBeforeConstruct, "A2:D11");
-		// worksheet.addImage(imageAfterConstruct, "A14:D23");
-
-		worksheet.addImage(imageBeforeConstruct, {
-			tl: { col: 0 + imageTlCol, row: 0 + imageTlRow },
-			ext: { width: imageWidth, height: imageHeight },
-			editAs: "absolute",
-		});
-
-		worksheet.addImage(imageAfterConstruct, {
-			tl: { col: 0 + imageTlCol, row: 12 + imageTlRow },
-			ext: { width: imageWidth, height: imageHeight },
-			editAs: "absolute",
-		});
+		worksheet.addImage(imageBeforeConstruct, "A1:D12");
+		worksheet.addImage(imageAfterConstruct, "A13:D24");
 
 		infoArray.forEach((text, index) => {
 			const mergeCellRowNum = infoStartRowNum + index;
@@ -270,7 +258,7 @@ async function exportExcel(
 		const textOfConstruct = getStrOfTypeOfPicture(typeOfPicture);
 		addTextAndMergeCell(infoStartRowNum + 3, textOfConstruct);
 
-		const ImageRowStart = [0, 12, 24];
+		const ImageRowStart = [1, 13, 25];
 		const mergeAndInsertText = [0, 15, 27];
 
 		const keys: ("firstImage" | "secondImage" | "thirdImage")[] = ["firstImage", "secondImage", "thirdImage"];
@@ -288,38 +276,13 @@ async function exportExcel(
 			}
 		});
 
-		// if (images.firstImage) {
-		// 	const firstImage = workbook.addImage({
-		// 		base64: images.firstImage,
-		// 		extension: "jpeg",
-		// 	});
-		// 	imagesToAdd.push(firstImage);
-		// }
-
-		// if (images.secondImage) {
-		// 	const secondImage = workbook.addImage({
-		// 		base64: images.secondImage,
-		// 		extension: "jpeg",
-		// 	});
-
-		// 	imagesToAdd.push(secondImage);
-		// }
-
-		// if (images.thirdImage) {
-		// 	const thirdImage = workbook.addImage({
-		// 		base64: images.thirdImage,
-		// 		extension: "jpeg",
-		// 	});
-
-		// 	imagesToAdd.push(thirdImage);
-		// }
-
 		imagesToAdd.forEach((image, index) => {
-			worksheet.addImage(image, {
-				tl: { col: 0 + imageTlCol, row: ImageRowStart[index] + imageTlRow },
-				ext: { width: imageWidth, height: imageHeight },
-				editAs: "absolute",
-			});
+			const row = ImageRowStart[index];
+			const imageCellPosition = `A${row}:D${row + 11}`;
+			console.log(imageCellPosition);
+
+			worksheet.addImage(image, imageCellPosition);
+
 			if (index !== 0) {
 				addTextAndMergeCell(infoStartRowNum + mergeAndInsertText[index], textOfConstruct);
 			}

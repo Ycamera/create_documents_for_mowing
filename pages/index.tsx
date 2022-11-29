@@ -16,6 +16,7 @@ import { Forms } from "../components/Forms";
 
 import exportExcel from "../libs/exportExcel";
 import LoadingBg from "../components/LoadingBg";
+import editImage from "../libs/editImage";
 
 export const useFormContext = React.createContext<Partial<{ register: any; errors: any }>>({});
 export const resetContext = React.createContext<Partial<{ reset: boolean; setReset: any }>>({});
@@ -74,11 +75,17 @@ export default function Home() {
 
 		reader.readAsDataURL(file);
 
-		reader.onload = function (): void {
-			const imageUrl = reader.result;
-			setImages((prev) => {
-				return { ...prev, [imageKey]: imageUrl };
-			});
+		reader.onload = async function () {
+			if (typeof reader.result !== "string") return;
+
+			const imageUrl: string = reader.result;
+			const editedImage = await editImage(imageUrl);
+
+			if (typeof editedImage === "string") {
+				setImages((prev) => {
+					return { ...prev, [imageKey]: editedImage };
+				});
+			}
 		};
 	}
 
