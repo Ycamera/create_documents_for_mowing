@@ -2,9 +2,10 @@ function editImage(imageUrl: string) {
 	return new Promise((resolve) => {
 		const canvas: HTMLCanvasElement = document.createElement("canvas");
 
-		const width = 400;
-		const height = 300;
-		const margin = 5;
+		const x = 5;
+		const width = 400 * x;
+		const height = 300 * x;
+		const margin = 5 * x;
 
 		const fullWidth = width + margin * 2;
 		const fullHeight = height + margin * 2;
