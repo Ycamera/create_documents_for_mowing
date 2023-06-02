@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# -　草刈業務用　資料作成アプリ　-
+アルバイト先の草刈り業務で使用するアプリです。
+PC操作が苦手な知人の職人を助けるために制作しました。
+業務で提出する資料を簡単なフォーム入力で生成し、エクセルファイルとして出力します。
 
-## Getting Started
+website URL = https://create-documents-for-mowing.vercel.app/
 
-First, run the development server:
+<h3>ディレクトリ構成</h3>
+<pre>
+.
+│  
+├── components
+│   ├── type
+│   │    └──type.ts 
+│   ├── CommonForm.tsx
+│   ├── ErrorMessage.tsx
+│   ├── Forms.tsx
+│   ├── LoadingBg.tsx
+│   ├── OsButton.tsx
+│   ├── TypeOfPlaceButton.tsx
+│   └── UploadImage.tsx
+├── libs
+│   ├── editImage.ts
+│   └── exportExcel.ts
+├── pages
+│ ├── app.tsx
+│ └── index.tsx
+└── styles
+　　 └── globals.css
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+</pre>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<h3>主要技術</h3>
+- Next.js https://nextjs.org/ <br>
+- Chakra-ui https://chakra-ui.com/ <br>
+- Typescript https://www.typescriptlang.org/ <br>
